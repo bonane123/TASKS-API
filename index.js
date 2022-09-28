@@ -2,6 +2,8 @@ const express = require("express")
 const mongoose = require("mongoose");
 const cors = require("cors");
 const taskRouter = require("./routes/tasks")
+const authRouter = require("./routes/auth")
+const userRouter = require("./routes/users")
 require("dotenv").config()
 const app= express()
 
@@ -16,6 +18,8 @@ app.get("/",(req,res)=>{
 // middlewares
 app.use(express.json())
 app.use(cors())
+app.use("/api/auth", authRouter)
+app.use("/api/users", userRouter)
 app.use("/api/task", taskRouter)
 
 //connection
