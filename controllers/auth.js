@@ -1,7 +1,7 @@
 const User = require("../models/Users")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-const {createError} = require("../utils/error")
+const {createError} = require("../middleware/error")
 
 const createUser = async(req,res,next)=>{
     try {
@@ -26,9 +26,9 @@ const login = async(req,res,next)=>{
         if(!user) return next(createError(400, "User not found"))
         const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
         if(!isPasswordCorrect) return next(createError(400,"password is incorrect"))
-        const token = jwt.sign({id: user._id},process.env.JWT_SECRET)
+        const token = jwt.sign({id: user._id},process.env.JWT_SECRET, {expiresIn: "2d"})
         const {username, password}= user._doc
-        res.cookie("access_token",token,{httpOnly: true}).status(200).json(username)
+        res.status(200).json({username: username, token: token})
     } catch (error) {
         next(error)
     }

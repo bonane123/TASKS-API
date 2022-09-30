@@ -8,6 +8,14 @@ const getAllTasks = async(req,res, next)=>{
     next(err)
     }
 }
+const getAllTask = async(req,res, next)=>{
+    try{
+        const tasks = await Task.findById(req.params.id)
+        res.status(200).json(tasks)
+    }catch(err){
+    next(err)
+    }
+}
 const createTask = async (req,res,next)=>{
     const newTask = new Task(req.body)
     try {
@@ -36,4 +44,4 @@ const deleteTasks = async (req,res,next)=>{
     } 
         
 }
-module.exports = {createTask,updateTasks,getAllTasks, deleteTasks}
+module.exports = {createTask,updateTasks,getAllTasks, deleteTasks, getAllTask}

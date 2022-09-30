@@ -1,15 +1,16 @@
-const {createTask,updateTasks,getAllTasks,deleteTasks} = require('../controllers/tasks')
+const {createTask,updateTasks,getAllTasks,deleteTasks, getAllTask} = require('../controllers/tasks')
 const express = require('express')
-const {verifyUser} = require("../utils/verifyToken")
+const {verifyUser, verifyToken} = require("../middleware/verifyToken")
 const router = express.Router()
 
 // CREATE TASK
-router.post("/", createTask)
+router.post("/", verifyToken, createTask)
 // GET TASKS
-router.get("/",verifyUser, getAllTasks)
+router.get("/",verifyToken, getAllTasks)
+router.get("/:id",verifyToken, getAllTask)
 // UPDATE TASK
-router.put("/:id", updateTasks)
+router.put("/:id", verifyToken, updateTasks)
 // DELETE TASK
-router.delete("/:id", deleteTasks)
+router.delete("/:id", verifyToken, deleteTasks)
 
 module.exports = router

@@ -1,10 +1,10 @@
 const express = require('express');
-const {getUsers, getUser, updateUser,deleteUser} = require('../controllers/users')
-const {verifyUser}= require("../utils/verifyToken")
+const {getUsers, updateUser,deleteUser} = require('../controllers/users')
+const {verifyUser}= require("../middleware/verifyToken")
 
 const router = express.Router()
-router.get("/",verifyUser, getUsers)
-router.get("/:id",verifyUser, getUser)
+
+router.get("/",getUsers)
 router.put("/:id",verifyUser, updateUser)
 router.delete("/:id",verifyUser, deleteUser)
 module.exports = router
